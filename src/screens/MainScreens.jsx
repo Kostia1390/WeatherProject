@@ -1,11 +1,12 @@
 // MainScreens.js
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setWeather } from '../redux/actions';
 import { fetchCurrentLocation } from '../components/location'; 
 import { LinearGradient } from 'expo-linear-gradient';
 import CustomInput from '../components/CustomInput';
+import { Typography } from '../Typography';
 
 
 const MainScreens = () => {
@@ -47,15 +48,14 @@ const MainScreens = () => {
     colors={['#a7ddef', '#3aa1c9']} 
     style={styles.container}
   >
- <CustomInput city={city} setCity={setCity} />
+      <CustomInput city={city} setCity={setCity} onSearch={fetchWeather} />
       {locationName && (
-        <Text>Текущее местоположение: {locationName}</Text>
+        <Typography f17 medium color="#fff" > {locationName}</Typography>
       )}
-      <Button title="Показать погоду" onPress={fetchWeather} />
       {weather && (
         <View style={styles.weatherContainer}>
-          <Text>Температура: {weather.current.temp_c}°C</Text>
-          <Text>Состояние: {weather.current.condition.text}</Text>
+          <Typography f64 semibold color="#fff" textAlign='center'> {weather.current.temp_c}°</Typography>
+          <Typography> {weather.current.condition.text}</Typography>
         </View>
       )}
     </LinearGradient>
