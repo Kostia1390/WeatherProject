@@ -53,28 +53,48 @@ const MainScreens = () => {
       colors={isDarkTheme ? ["#000", "#333"] : ["#a7ddef", "#3aa1c9"]}
       style={styles.container}
     >
-      <View style={styles.settingsWrapper}>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Settings width={40} height={40} />
-        </TouchableOpacity>
+      <View style={{ flexDirection: "row", gap: 40 }}>
+        <CustomInput city={city} setCity={setCity} onSearch={fetchWeather} />
+        <View style={styles.settingsWrapper}>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <Settings width={40} height={40} />
+          </TouchableOpacity>
+        </View>
       </View>
-      <CustomInput city={city} setCity={setCity} onSearch={fetchWeather} />
+
       {locationName && (
-        <Typography f24 semibold color="#fff">
+        <Typography f29 semibold color="#fff">
           {locationName}
         </Typography>
       )}
       {weather && (
         <View style={styles.weatherContainer}>
           <WeatherIcon conditionText={weather.current.condition.text} />
-          <Typography f64 semibold color="#fff" textAlign="center">
+          <Typography
+            f64
+            semibold
+            color="#fff"
+            textAlign="center"
+            marginTop={20}
+            marginBottom={30}
+          >
             {weather.current.temp_c}°
           </Typography>
         </View>
       )}
 
       <TouchableOpacity onPress={() => navigation.navigate("TodayWeather")}>
-        <WeatherWindows />
+        <WeatherWindows title="Погода на сьогодні" />
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => navigation.navigate("ThreeDayWeather")}>
+        <WeatherWindows title="Погода на 3 дні" />
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate("FourteenDayWeather")}
+      >
+        <WeatherWindows title="Погода на 14 днів" />
       </TouchableOpacity>
 
       <SettingsModal
@@ -104,7 +124,7 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 50,
+    marginBottom: 80,
   },
 });
 

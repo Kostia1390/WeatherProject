@@ -8,14 +8,17 @@ import {
   Switch,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleTheme } from "../redux/actions/themeActions"; 
+import { toggleTheme } from "../redux/actions/themeActions";
+import { Typography } from "../Typography";
+import CloseSvg from "../../assets/icons/close.svg";
 
 const SettingsModal = ({ visible, onClose }) => {
   const dispatch = useDispatch();
-  const isDarkTheme = useSelector((state) => state.theme.isDarkTheme); 
+  const isDarkTheme = useSelector((state) => state.theme.isDarkTheme);
 
   const handleToggleTheme = () => {
     dispatch(toggleTheme());
+  };
 
   return (
     <Modal
@@ -26,11 +29,20 @@ const SettingsModal = ({ visible, onClose }) => {
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>Налаштування</Text>
+          <View style={styles.header}>
+            <View style={{ flex: 1 }} />
+            <Typography f20 style={{ textAlign: "center" }}>
+              Налаштування
+            </Typography>
+            <TouchableOpacity
+              style={{ flex: 1, alignItems: "flex-end" }}
+              onPress={onClose}
+            >
+              <CloseSvg />
+            </TouchableOpacity>
+          </View>
+          <Typography f20>Змінити Тему</Typography>
           <Switch onValueChange={handleToggleTheme} value={isDarkTheme} />
-          <TouchableOpacity style={styles.button} onPress={onClose}>
-            <Text style={styles.textStyle}>Закрити</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -48,7 +60,8 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -58,6 +71,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  header: {
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    marginBottom: 20,
   },
 });
 export default SettingsModal;

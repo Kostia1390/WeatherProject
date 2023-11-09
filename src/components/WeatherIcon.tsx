@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import Sunny from "../../assets/iconsWeather/sunny.svg";
+import Clear from "../../assets/iconsWeather/clear.svg";
 import Rain from "../../assets/iconsWeather/rain.svg";
 import Cloudy from "../../assets/iconsWeather/cloudy.svg";
 import Fog from "../../assets/iconsWeather/fog.svg";
@@ -11,7 +12,7 @@ const createIcon = (Icon) => <Icon width={150} height={150} />;
 const weatherConditions = {
   rain: createIcon(Rain),
   sunny: createIcon(Sunny),
-  clear: createIcon(Sunny),
+  clear: createIcon(Clear),
   cloudy: createIcon(Cloudy),
   fog: createIcon(Fog),
   mist: createIcon(Fog),
