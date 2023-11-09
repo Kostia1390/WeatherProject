@@ -1,12 +1,17 @@
 // MainScreens.js
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setWeather } from '../redux/actions';
 import { fetchCurrentLocation } from '../components/location'; 
 import { LinearGradient } from 'expo-linear-gradient';
 import CustomInput from '../components/CustomInput';
+import WeatherWindows from '../components/WeatherWindows';
 import { Typography } from '../Typography';
+import WeatherIcon from '../components/WeatherIcon';
+import Settings from '../../assets/icons/settings.svg';
+import SettingsModal from '../components/SettingsModal';
+
 
 
 const MainScreens = () => {
@@ -14,6 +19,9 @@ const MainScreens = () => {
   const weather = useSelector(state => state.weatherData);
   const locationName = useSelector(state => state.locationName);
   const dispatch = useDispatch();
+  const [modalVisible, setModalVisible] = useState(false); 
+  const [isDarkTheme, setIsDarkTheme] = useState(false); 
+
 
   const fetchWeatherForCurrentLocation = async () => {
     const location = await fetchCurrentLocation();
@@ -45,19 +53,36 @@ const MainScreens = () => {
 
   return (
     <LinearGradient
-    colors={['#a7ddef', '#3aa1c9']} 
+    colors={isDarkTheme ? ['#000', '#333'] : ['#a7ddef', '#3aa1c9']} 
     style={styles.container}
   >
+   
+     
+   <View style={styles.settingsWrapper}>
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <Settings width={40} height={40}/>
+        </TouchableOpacity>
+      </View>
       <CustomInput city={city} setCity={setCity} onSearch={fetchWeather} />
       {locationName && (
-        <Typography f17 medium color="#fff" > {locationName}</Typography>
+        <Typography f24 semibold color="#fff" > {locationName}</Typography>
       )}
       {weather && (
         <View style={styles.weatherContainer}>
+           <WeatherIcon  conditionText={weather.current.condition.text} />
           <Typography f64 semibold color="#fff" textAlign='center'> {weather.current.temp_c}°</Typography>
-          <Typography> {weather.current.condition.text}</Typography>
         </View>
       )}
+
+      <WeatherWindows/> 
+
+      <SettingsModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onThemeChange={setIsDarkTheme}
+        isDarkTheme={isDarkTheme}
+      />
+
     </LinearGradient>
   );
 };
@@ -66,12 +91,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start', 
     width: '100%', 
+    paddingHorizontal: 40,
+    paddingTop: 50, 
   },
   weatherContainer: {
     marginTop: 20,
   },
+  settingsWrapper: {
+  backgroundColor:'#fff',
+borderRadius:7,
+width:50,
+height:50,
+justifyContent:'center',
+alignItems:'center',
+marginBottom:50},
 });
 
 export default MainScreens;
