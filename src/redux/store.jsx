@@ -1,6 +1,7 @@
-import { createStore } from 'redux';
-import weatherReducer from './reducer';
+// store.js
+import { createStore } from "redux";
+import rootReducer from "./reducers";
 
-const store = createStore(weatherReducer);
+const store = createStore(rootReducer);
 
 export default store;
