@@ -45,3 +45,35 @@ export const fetchHourlyWeather = async (city) => {
     return null;
   }
 };
+
+export const fetchThreeDayForecast = async (city) => {
+  try {
+    const response = await fetch(
+      `http://api.weatherapi.com/v1/forecast.json?key=bcfaa123dd954d9ba34150645230611&q=${city}&days=3`
+    );
+    if (!response.ok) {
+      throw new Error(`API responded with status: ${response.status}`);
+    }
+    const json = await response.json();
+    return json.forecast.forecastday;
+  } catch (error) {
+    console.error("Error fetching three day forecast:", error);
+    return null;
+  }
+};
+
+export const fetchFourteenDayForecast = async (city) => {
+  try {
+    const response = await fetch(
+      `http://api.weatherapi.com/v1/forecast.json?key=bcfaa123dd954d9ba34150645230611&q=${city}&days=14`
+    );
+    if (!response.ok) {
+      throw new Error(`API responded with status: ${response.status}`);
+    }
+    const json = await response.json();
+    return json.forecast.forecastday;
+  } catch (error) {
+    console.error("Error fetching three day forecast:", error);
+    return null;
+  }
+};
